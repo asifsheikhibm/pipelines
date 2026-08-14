@@ -67,13 +67,13 @@ RUN git init /googleapis && \
     git checkout FETCH_HEAD
 # Download go-swagger binary.
 RUN set -eu; \
-    if [[ "$TARGETARCH" = "ppc64le" ]]; then \
+    if [ "$TARGETARCH" = "ppc64le" ]; then \
         SWAGGER_ARCH=ppc64le; \
     else \
         SWAGGER_ARCH=amd64; \
     fi; \
     go_swagger_version="$(cd /tmp/api-generator-tools && go mod edit -json | jq -er '.Require[] | select(.Path == "github.com/go-swagger/go-swagger") | .Version')"; \
-    curl -fL -o /usr/bin/swagger "https://github.com/go-swagger/go-swagger/releases/download/${go_swagger_version}/swagger_linux_${TARGETARCH}"; \
+    curl -fL -o /usr/bin/swagger "https://github.com/go-swagger/go-swagger/releases/download/${go_swagger_version}/swagger_linux_${SWAGGER_ARCH}"; \
     chmod +x /usr/bin/swagger
 
 # Needed for buildling python packages requiring protoc
